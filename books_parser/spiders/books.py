@@ -26,9 +26,11 @@ class BooksSpider(scrapy.Spider):
 
         yield BooksParserItem(
             title=response.css(".product_main > h1::text").get(),
-            price=response.css(".product_main > .price_color::text")
-            .get()
-            .replace("£", ""),
+            price=float(
+                response.css(".product_main > .price_color::text")
+                .get()
+                .replace("£", "")
+            ),
             amount_in_stock=int(
                 response.css(".instock")
                 .re_first("\d+ available")  # noqa: W605
